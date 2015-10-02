@@ -11,7 +11,6 @@ addUp :: Int -> Int
 addUp 0 = 0
 addUp x = x + addUp (x - 1)
 
-
 -- Pattern Matching with Tuples
 addVectors :: (Double, Double) -> (Double, Double) -> (Double, Double)
 addVectors (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
@@ -36,6 +35,33 @@ toTriple2 (x:[])		= (x,0,0)
 toTriple2 (x:y:[])		= (x,y,0)
 toTriple2 (x:y:z:[])	= (x,y,z)
 toTriple2 (x:y:z:_)		= error "too many elements"
+
+-- Version of the head function using pattern matching
+head' :: [a] -> a
+head' [] 		= error "empty list"
+head' (x:_)		= x
+
+length' :: [a] -> Int
+length' [] 		= 0
+length' (_:xs)	= 1 + (length' xs)
+
+sum' :: Num a => [a] -> a
+sum' [] 		= 0
+sum' (x:xs)		= x + sum' xs
+
+-- As patterns (@) allow you to break a list up (i.e. (x:xs)) but still keep the remainder of the list (xs) without removing the head
+firstLetter :: String -> String
+firstLetter [] 			= "no first letter"
+firstLetter all@(x:xs)	= "First letter of '" ++ all ++ "' is " ++ [x]
+
+
+
+
+
+
+
+
+
 
 
 
