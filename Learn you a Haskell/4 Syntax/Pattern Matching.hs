@@ -54,14 +54,3 @@ firstLetter :: String -> String
 firstLetter [] 			= "no first letter"
 firstLetter all@(x:xs)	= "First letter of '" ++ all ++ "' is " ++ [x]
 
-
-
-
-
-
-
-
-
-
-
-
