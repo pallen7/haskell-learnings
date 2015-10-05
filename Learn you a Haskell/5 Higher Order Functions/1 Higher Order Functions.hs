@@ -48,6 +48,29 @@ myZipWith f _ []          = []
 myZipWith f [] _          = []
 myZipWith f (x:xs) (y:ys) = f x y : myZipWith f xs ys
 
+useMyZipWith = myZipWith (++) ["bob", "cat", "monkey"] ["sleigh", "fish", "puzzle"]
+
+-- Flip takes a function that flips around it's parameters
+myFlip :: (a -> b -> c) -> b -> a -> c
+myFlip f y x = f x y
+
+useMyFlip = myFlip (/) 5 10
+
+-- Filter function..:
+myFilter :: (a -> Bool) -> [a] -> [a]
+myFilter f [] = []
+myFilter f xs = [x | x <- xs, f x]
+
+-- or with recursion
+myFilter2 :: (a -> Bool) -> [a] -> [a]
+myFilter2 f []     = []
+myFilter2 f (x:xs)
+    | f x       = x : myFilter2 f xs
+    | otherwise = myFilter2 f xs
+
+useMyFilter = myFilter (>3) [1,2,3,4,5]
+useMyFilter2 = myFilter2 (even) [1..10]
+useDoubleFilter = myFilter (>10) (myFilter (even) [1..20])
 
 
 
