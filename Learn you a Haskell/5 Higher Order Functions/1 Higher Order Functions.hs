@@ -72,5 +72,18 @@ useMyFilter = myFilter (>3) [1,2,3,4,5]
 useMyFilter2 = myFilter2 (even) [1..10]
 useDoubleFilter = myFilter (>10) (myFilter (even) [1..20])
 
+-- Use filter to find the largest number under 100,000 that's divisible by 3829
+largestDivisible :: Int
+largestDivisible = head (myFilter p [99999,99998..])
+		where p x = x `mod` 3829 == 0
 
+-- takeWhile: move through an array until whilst our predicate holds true
+-- then use to fund the sum of all odd squares less than 10000
+myTakeWhile :: (a -> Bool) -> [a] -> [a]
+myTakeWhile _ [] = []
+myTakeWhile f (x:xs)
+  | f x == True  = x : myTakeWhile f xs
+  | otherwise    = []
 
+oddSquaresLT10k :: Int
+oddSquaresLT10k = sum(myTakeWhile (<10000) (myFilter odd (map (^2) [1..])))
