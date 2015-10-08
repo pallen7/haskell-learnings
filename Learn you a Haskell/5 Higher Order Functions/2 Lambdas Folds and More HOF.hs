@@ -19,6 +19,3 @@ addOneWithLambda = map (\x -> x+1) [1..5]
 
 -- Comes in a lot more handy when you want to carry out a few operations on a given value without defining a function
 doALotOfStuff = map (\x -> x^2 * 3) [1..10]
-
--- Folds:
-
