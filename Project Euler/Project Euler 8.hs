@@ -17,8 +17,12 @@ productOfString :: String -> Int
 productOfString = foldl (\acc x -> acc * (digitToInt x :: Int)) 1
 
 processNumber :: String -> String -> Int -> Int
-processNumber [] _ res = res
-processNumber (x:xs) all@(y:ys) res
+processNumber [] _ res       = res
+processNumber (x:xs) [] res  = processNumber xs [x] res
+processNumber (x:xs) ys res
   | x == '0'        = processNumber xs "" res
-  | length all < 13 = processNumber xs (x:all) res
-  | otherwise       = processNumber xs ys (max (productOfString all) res)
+  | length ys < 12  = processNumber xs (ys ++ [x]) res
+  | otherwise       = processNumber xs ((tail ys) ++ [x]) (max (productOfString (ys ++ [x])) res)
+
+runTheProcess :: Int
+runTheProcess = processNumber theNumber "" 0
