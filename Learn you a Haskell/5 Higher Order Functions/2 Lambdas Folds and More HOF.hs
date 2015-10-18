@@ -60,6 +60,39 @@ myOtherSum xs = foldl1(\acc x -> acc + x) xs
 
 useMyOtherSum = myOtherSum [1,2,3,4,5]
 
+-- Function application with dollar
+-- Definition of $
+-- ($) :: (a -> b) -> a -> b
+-- f $ x = f x
+-- Where as regular functional application has the highest precedence. $ has the lowest precedence
+-- This helps us to remove parentehses. When a $ is encountered the expression on the right is applied and
+-- as a paramter to the function on the left
+
+squares :: Int -> Int
+squares x = sum (map (\x -> x^2) [1..x])
+
+squares2 :: Int -> Int
+squares2 x = sum $ map (\x -> x^2) [1..x]
+
+sqrt' = sqrt $ 1 + 2 + 6
+
+-- $ also lets us treat function application just like another function. This allows us
+-- to use $3 to pass 3 to a list of functions where map expects a function
+useMap = map ($ 3) [(10+), (*4), (^2), (sqrt)]
+
+-- Function composition is defined in maths as:
+-- f(g(x)) = f.g(x) : essentially we take the result of one function (on the rhs) and use the result
+-- as the parameter for the lhs function
+-- Remember that it is for COMPOSING FUNCTIONS so the below doesn't work
+
+-- ** BAD: useComp1 = sum . tail [1,2,3,4,5]
+
+-- but this does work:
+useComp1 = (sum . tail) [1,2,3,4,5]
+
+-- Example of using function composition to compose a function that takes 2 parameters
+useComp2 = sum . replicate 5 $ max 4 5
+
 
 
 
