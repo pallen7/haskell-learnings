@@ -1,6 +1,6 @@
 -- A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
 
--- a2 + b2 = c2
+-- a^2 + b^2 = c^2
 -- For example, 3^2 + 4^2 = 9 + 16 = 25 = 5^2.
 -- so 3+4+5 = 12
 
@@ -43,4 +43,32 @@
 -- b = multiples of 4
 -- c = multiples of 5
 
---- SOOOOOooooo... that aint the pattern :o(
+-- Test to see if the above patter is the actual solution.
+fx :: [(Int, Int, Int, Int)]
+fx = [(a, b, c, a+b+c) | a <- [3,6..500], b <- [4,8..500], c <- [5,10..1000], a < b, b < c, a^2 + b^2 == c^2]
+-- Bugger.. Unfortunately it isn't...
+
+-- Let's go with something different:
+fx2 :: [(Int, Int, Int, Int)]
+fx2 = [(a, b, c, a+b+c) | a <- [100..500], b <- [150..500], c <- [200..700], a+b+c == 1000, isPythagoreanTriplet (a,b,c)]
+
+isPythagoreanTriplet :: (Int, Int, Int) -> Bool
+isPythagoreanTriplet (a,b,c) = a^2 + b^2 == c^2 && a < b && b < c
+
+-- Ok it works but it's not very elegant
+
+getPythagProduct :: Int
+getPythagProduct = head ([a*b*c | a <- [100..500], b <- [150..500], c <- [200..700], a+b+c == 1000, isPythagoreanTriplet (a,b,c)])
+
+
+
+
+
+
+
+
+
+
+
+
+

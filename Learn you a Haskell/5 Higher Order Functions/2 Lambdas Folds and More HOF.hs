@@ -83,7 +83,7 @@ useMap = map ($ 3) [(10+), (*4), (^2), (sqrt)]
 -- Function composition is defined in maths as:
 -- f(g(x)) = f.g(x) : essentially we take the result of one function (on the rhs) and use the result
 -- as the parameter for the lhs function
--- Remember that it is for COMPOSING FUNCTIONS so the below doesn't work
+-- Remember that it is for COMPOSING FUNCTIONS so the below doesn't work as tail will try to act on the list before the function composition
 
 -- ** BAD: useComp1 = sum . tail [1,2,3,4,5]
 
@@ -92,6 +92,38 @@ useComp1 = (sum . tail) [1,2,3,4,5]
 
 -- Example of using function composition to compose a function that takes 2 parameters
 useComp2 = sum . replicate 5 $ max 4 5
+
+
+
+-- POINT FREE STYLE:
+-- This is when we can omit a parameter from the function definition. i.e.:
+
+foldlSumRegular :: Num a => [a] -> a
+foldlSumRegular xs = foldl(+) 0 xs
+
+useFoldlSumRegular = foldlSumRegular [1,2,3,4,5]
+
+-- As xs is exposed on the rhs of both sides we can take advantage of currying and omit xs as it will return a function that takes a list
+foldlSumPointFree :: Num a => [a] -> a
+foldlSumPointFree = foldl(+) 0
+
+useFoldlSumPointFree = foldlSumPointFree [1,2,3,4,5]
+
+-- For something like the below we can't get rid of the x as it's wrapped in parentheses
+-- fn x = ceiling (negate (tan (cos (max 50 x))))
+
+-- In this instance we need to use function composition to expose the x on the right hand side then we can get rid of the x
+-- This will in effect return us a composed function that takes a number
+
+composed = ceiling . negate . tan . cos . max 50
+
+useComposed = composed 65.0
+
+
+
+
+
+
 
 
 
