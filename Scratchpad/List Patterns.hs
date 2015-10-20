@@ -11,17 +11,21 @@
 -- swap (0,1)
 -- swap (1,2)
 
+-- swap :: [Int] -> (Int, Int) -> [Int]
+-- swap [] _ = error "swap called on empty list"
+-- swap xs (a,b) = (take a xs) ++ [(xs !! b)] ++ (substr xs (a+1) (b-a-1)) ++ [(xs !! a)] ++ drop (b+1) xs
 
-swap :: [Int] -> (Int, Int) -> [Int]
-swap [] _ = error "swap called on empty list"
-swap xs (a,b) = (take a xs) ++ [(xs !! b)] ++ (substr xs (a+1) (b-a-1)) ++ [(xs !! a)] ++ drop (b+1) xs
+-- substr :: [Int] -> Int -> Int -> [Int]
+-- substr [] _ _ = error "substr called on empty list"
+-- substr xs x y = take y $ drop x xs
 
-substr :: [Int] -> Int -> Int -> [Int]
-substr [] _ _ = error "substr called on empty list"
-substr xs x y = take y $ drop x xs
+-- bubbleUp :: [Int] -> Int -> [[Int]]
+-- bubbleUp [] _ = []
+-- bubbleUp xs y
+  -- | y+1 == length xs = [xs]
+  -- | otherwise        = xs : bubbleUp (swap xs (y, y+1)) (y+1)
 
-bubbleUp :: [Int] -> Int -> [[Int]]
-bubbleUp [] _ = []
-bubbleUp xs y
-  | y+1 == length xs = [xs]
-  | otherwise        = xs : bubbleUp (swap xs (y, y+1)) (y+1)
+-- allPatterns :: [Int] -> [Int] -> [[Int]]
+-- allPatterns [] _ = error "no patterns"
+-- allPatterns xs [] = [[]]
+-- allPatterns xs (y:ys) = [[a,b] | a <- xs, b <- [y], a /= b] ++ allPatterns xs ys
