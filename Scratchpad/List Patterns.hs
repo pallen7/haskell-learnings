@@ -1,31 +1,37 @@
 -- Imagine we have a connect 4 board and 2 different colour discs.
 -- We can only use 1 column. How many combinations can we have?
 -- If we then have 3 different coloured discs how many combinations can we have? This will be the product but let's build
--- some patterns to check this.
+-- some patterns to check this. When we have multiple discs and some are the same colour what is the effect?
 
--- So let's come up with a pattern swapping sequence that will always give us a new list
--- for 2 elements:
--- swap (0,1)
+-- inserts an element into a given position in a list
+insert :: [a] -> a -> Int -> [a]
+insert [] y n = [y]
+insert xs y n = (take n xs) ++ [y] ++ (drop n xs)
 
--- for 3 elements:
--- swap (0,1)
--- swap (1,2)
+-- usage [1,2] 3 0 = [[1,2,3],[1,3,2],[3,1,2]]
+addElement :: [a] -> a -> Int -> [[a]]
+addElement [] y n   = [[y]]
+addElement xs y n
+  | length xs == n  = [xs ++ [y]]
+  | otherwise       = addElement xs y (n+1) ++ [insert xs y n]
 
--- swap :: [Int] -> (Int, Int) -> [Int]
--- swap [] _ = error "swap called on empty list"
--- swap xs (a,b) = (take a xs) ++ [(xs !! b)] ++ (substr xs (a+1) (b-a-1)) ++ [(xs !! a)] ++ drop (b+1) xs
+-- takes a list of lists (i.e. [[1,2],[2,1]]) and performs an add Element for y on each member of the list
+addElement2 :: [[a]] -> a -> [[a]]
+addElement2 [] _ = []
+addElement2 (x:xs) y = (addElement x y 0) ++ (addElement2 xs y)
 
--- substr :: [Int] -> Int -> Int -> [Int]
--- substr [] _ _ = error "substr called on empty list"
--- substr xs x y = take y $ drop x xs
+-- takes a list and explodes it into a list of lists
+explode :: [a] -> [[a]] -> [[a]]
+explode [] ys = ys
+explode (x:xs) ys = explode xs (addElement2 ys x)
 
--- bubbleUp :: [Int] -> Int -> [[Int]]
--- bubbleUp [] _ = []
--- bubbleUp xs y
-  -- | y+1 == length xs = [xs]
-  -- | otherwise        = xs : bubbleUp (swap xs (y, y+1)) (y+1)
+extrapolate :: [a] -> [[a]]
+extrapolate [] = [[]]
+extrapolate xs = explode xs [[]]
 
--- allPatterns :: [Int] -> [Int] -> [[Int]]
--- allPatterns [] _ = error "no patterns"
--- allPatterns xs [] = [[]]
--- allPatterns xs (y:ys) = [[a,b] | a <- xs, b <- [y], a /= b] ++ allPatterns xs ys
+unique :: Eq a => [a] -> [a]
+unique [] = []
+unique xs = foldl (\acc x -> if x `elem` acc then acc else x : acc) [] xs
+
+combinations :: Eq a => [a] -> Int
+combinations = length . unique . extrapolate
