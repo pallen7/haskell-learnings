@@ -53,7 +53,7 @@ sorted xs = and [x <= y | (x,y) <- adjacent xs]
 pyths :: Int -> [(Int, Int, Int)]
 pyths n = [(x,y,z) | x <- [1..n], y <- [1..n], z <- [1..n], x^2 + y^2 == z^2]
 
--- A perfect number is one that is that equals the sum of it's factors
+-- A perfect number is one that equals the sum of it's factors
 -- i.e. perfects 500 = [6,28,496]
 
 perfects :: Int -> [Int]
@@ -61,6 +61,7 @@ perfects n = [x | x <- [1..n], sum (init (factors x)) == x]
 
 
 
+f = concat [[(x,y) | y <- [4,5,6]] | x <- [1,2,3]]
 
 
 
