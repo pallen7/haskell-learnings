@@ -31,22 +31,36 @@ toDigitsRev n | n<0              = error "<0"
 -- ===================================
 
 doubleSecond :: [Integer] -> [Integer]
-doubleSecond = undefined
+doubleSecond []       = []
+doubleSecond [x]      = [x]
+doubleSecond (x:y:xs) = x : y*2 : doubleSecond xs
 
 -- ===================================
 -- Ex. 3
 -- ===================================
 
-sumDigits :: [Integer] -> Integer
-sumDigits = undefined
+{-
+sumDigits [1,2,12,3]
+1 + sumDigits [2,13,3]
+1 + (2 + sumDigits[13,3])
+1 + (2 + sumDigits [1,3] + sumDigits [3])
+1 + (2 + (1 + sumDigits [3])) + (3 + sumDigits[])
+1 + (2 + (1 + (3sumDigits [])))) + (3)
+1 + (2 + (1 + (3)))) + (3)
+-}
 
+sumDigits :: [Integer] -> Integer
+sumDigits [] = 0
+sumDigits (x:xs)
+  | abs x > 9  = sumDigits (toDigits x) + sumDigits xs
+  | otherwise  = x + sumDigits xs
 
 -- ===================================
 -- Ex. 4
 -- ===================================
 
 isValid :: Integer -> Bool
-isValid = undefined
+isValid x = sumDigits(doubleSecond(toDigitsRev x)) `mod` 10 == 0
 
 
 -- ===================================
