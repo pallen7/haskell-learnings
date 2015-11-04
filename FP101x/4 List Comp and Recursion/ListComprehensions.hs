@@ -59,10 +59,15 @@ pyths n = [(x,y,z) | x <- [1..n], y <- [1..n], z <- [1..n], x^2 + y^2 == z^2]
 perfects :: Int -> [Int]
 perfects n = [x | x <- [1..n], sum (init (factors x)) == x]
 
-
-
 f = concat [[(x,y) | y <- [4,5,6]] | x <- [1,2,3]]
 
+riffle :: [a] -> [a] -> [a]
+riffle xs ys = concat[[x,y] | (x,y) <- xs `zip` ys]
 
+divides :: Int -> Int -> Bool
+divides x y = x `mod` y == 0
+
+divisors :: Int -> [Int]
+divisors x = [d | d <- [1..x], x `divides` d]
 
 

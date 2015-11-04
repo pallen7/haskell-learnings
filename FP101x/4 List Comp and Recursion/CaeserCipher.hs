@@ -12,8 +12,15 @@ let2int x = ord x - ord 'a'
 int2let :: Int -> Char
 int2let x = chr (ord 'a' + x)
 
+let2intUpper :: Char -> Int
+let2intUpper x = ord x - ord 'A'
+
+int2letUpper :: Int -> Char
+int2letUpper x = chr (ord 'A' + x)
+
 shift :: Int -> Char -> Char
 shift n c | isLower c = int2let((let2int c + n) `mod` 26)
+          | isUpper c = int2letUpper((let2intUpper c + n) `mod` 26)
           | otherwise = c
 
 encode :: Int -> String -> String
@@ -37,4 +44,11 @@ freqs xs = [percent (count x xs) n | x <- ['a'..'z']]
          where n = lowers xs
 
 zs = 1 : [z + 1 | z <- zs]
+
+chisqr :: [Float] -> [Float] -> Float
+chisqr os es = sum[((o-e)^2) | (o,e) <- zip os es]
+
+rotate :: Int -> [a] -> [a]
+rotate n xs = drop n xs ++ take n xs
+
 
