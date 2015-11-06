@@ -62,7 +62,7 @@ dropWhile' :: (a -> Bool) -> [a] -> [a]
 dropWhile' _ [] = []
 dropWhile' f (x:xs)
     | f x       = dropWhile' f xs
-    | otherwise = xs
+    | otherwise = x : xs
 
 usedropWhile = dropWhile' (<10) [1..20]
 
