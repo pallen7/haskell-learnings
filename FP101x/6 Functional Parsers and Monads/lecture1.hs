@@ -51,3 +51,25 @@ item' = \inp -> case inp of
 parse' :: Parser a -> String -> [(a, String)]
 parse' p inp = p inp
 
+-- CHOICE of parser:
+-- combining 2 parsers can be done by applying the first parser and if that fails then we can apply the second parser
+(+++) :: Parser a -> Parser a -> Parser a
+p +++ q = \inp -> case parse' p inp of
+                      []         -> parse' q inp
+                      [(v, out)] -> [(v, out)]
+
+-- p :: Parser (Char, Char)
+-- p = do x <- item'
+       -- item'
+       -- y <- item'
+       -- return' (x,y)
+
+sat                           :: (Char -> Bool) -> Parser Char
+sat p                         =  do x <- item'
+                                    if p x then return' x else failure'
+
+
+
+
+
+
