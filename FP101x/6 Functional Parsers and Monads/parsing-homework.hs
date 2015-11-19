@@ -13,7 +13,9 @@ newtype Parser a              =  P (String -> [(a,String)])
 
 instance Monad Parser where
     return v                   =  P (\inp -> [(v,inp)])
-    p >>= f                    =  error "You must implement (>>=)"
+    p >>= f                    =  P (\inp -> case parse p inp of
+                                            [] -> []
+                                            [(v,out)] -> parse (f v) out)
  
 instance MonadPlus Parser where
     mzero                      =  P (\inp -> [])
