@@ -68,19 +68,19 @@ alphanum                      =  sat isAlphaNum
 char                          :: Char -> Parser Char
 char x                        =  sat (== x)
  
--- > string                        :: String -> Parser String
--- > string []                     =  return []
--- > string (x:xs)                 =  do char x
--- >                                     string xs
--- >                                     return (x:xs)
--- > 
--- > many                          :: Parser a -> Parser [a]
--- > many p                        =  many1 p +++ return []
--- > 
--- > many1                         :: Parser a -> Parser [a]
--- > many1 p                       =  do v  <- p
--- >                                     vs <- many p
--- >                                     return (v:vs)
+string                        :: String -> Parser String
+string []                     =  return []
+string (x:xs)                 =  do char x
+                                    string xs
+                                    return (x:xs)
+ 
+many                          :: Parser a -> Parser [a]
+many p                        =  many1 p +++ return []
+ 
+many1                         :: Parser a -> Parser [a]
+many1 p                       =  do v  <- p
+                                    vs <- many p
+                                    return (v:vs)
 -- > 
 -- > ident                         :: Parser String
 -- > ident                         =  do x  <- lower
