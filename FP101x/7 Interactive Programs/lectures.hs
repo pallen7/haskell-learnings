@@ -1,5 +1,40 @@
 import System.IO
+{-
+Monad signature:
+class Monad (m :: * -> *) where
+    (>>=)       :: m a -> (a -> m b) -> m b       -- The bind operator
+    (>>)        :: m a -> m b -> m b              -- Then operator to allow chaining
+    return      :: a -> m a
+    fail        :: String -> m a
+-}
 
+-- Using the then operator to sequence 2 IO calls
+-- putStr returns IO () as it is an action
+thenUsage = putStr "Hello world" >> putStrLn " from me"
+
+-- Using the bind operator we can feed in the result of getLine (IO String)
+-- as the first paramater matching m a
+-- Then we use the function \x -> putStr ("abc" ++ x) to map a plain value x to IO String.
+bindUsage = putStrLn "Please enter your name" >> getLine >>= \x -> putStrLn ("Hello there " ++ x)
+
+-- Here we are showing how we can bind multiple times. Parentheses used to make clear where (a -> m b) is happening
+bindUsage2 = putStrLn "Please enter your first name" >> getLine >>= (\a ->
+                putStrLn "Please enter your surname" >> getLine >>= (\b ->
+                    putStrLn ("Hello " ++ a ++ " " ++ b)))
+
+-- The then operator can be written in terms of the bind operator by ignoring the input
+bindUsage3 = putStr "Hello there " >>= \_ -> putStrLn "you"
+
+-- Using return:
+countLetters    :: String -> IO Int
+countLetters xs  = return $ length xs
+
+usereturn2 :: IO ()
+usereturn2 = do
+    x <- getLine >>= countLetters
+    print x
+        
+-- Do means that we don't end up with long chains of binds and thens..:
 writeTwo :: IO (Char, Char)
 writeTwo = do
             x <- getChar
