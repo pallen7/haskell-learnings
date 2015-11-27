@@ -81,18 +81,21 @@ many1                         :: Parser a -> Parser [a]
 many1 p                       =  do v  <- p
                                     vs <- many p
                                     return (v:vs)
--- > 
--- > ident                         :: Parser String
--- > ident                         =  do x  <- lower
--- >                                     xs <- many alphanum
--- >                                     return (x:xs)
--- > 
--- > nat                           :: Parser Int
--- > nat                           =  do xs <- many1 digit
--- >                                     return (read xs)
--- >
--- > int                           :: Parser Int
--- > int                           =  error "You must implement int"
+
+ident                         :: Parser String
+ident                         =  do x  <- lower
+                                    xs <- many alphanum
+                                    return (x:xs)
+
+nat                           :: Parser Int
+nat                           =  do xs <- many1 digit
+                                    return (read xs)
+
+int                           :: Parser Int
+int                           =  (do char '-'
+                                     n <- nat
+                                     return (-n))
+                                    +++ nat
 -- > 
 -- > space                         :: Parser ()
 -- > space                         =  do many (sat isSpace)
