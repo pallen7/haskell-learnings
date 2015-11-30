@@ -40,11 +40,15 @@ poem = [ "Three Types for the Lisp-kings under the parentheses,"
 -- ===================================
 
 euclid :: (Int,  Int) -> Int
-euclid (x, y) = undefined
+euclid (x, y)
+    | x == y        = x
+    | x > y         = euclid ((x-y), y)
+    | otherwise     = euclid (x, (y-x))
 
 -- ===================================
 -- Ex. 3
 -- ===================================
 
-funkyMap :: (a -> b) -> (a -> b) -> [a] -> [b]
-funkyMap f g xs = undefined
+funkyMap           :: (a -> b) -> (a -> b) -> [a] -> [b]
+funkyMap _ _ []     = []
+funkyMap f g (x:xs) = f x : funkyMap g f xs

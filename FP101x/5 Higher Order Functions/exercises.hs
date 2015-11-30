@@ -1,3 +1,5 @@
+type Bit = Int
+
 {-
 1 Show how [f x | x <- xs, p x] can be re-expressed using map and filter
 -}
@@ -71,9 +73,27 @@ uncurry' :: (a -> b -> c) -> (a, b) -> c
 uncurry' f = \(x,y) -> f x y
 
 {-
-
+7 unfold
+Rewrite chop8, map f, iterate f using unfold
 -}
+unfold :: (b -> Bool) -> (b -> a) -> (b -> b) -> b -> [a]
+unfold p h t x
+    | p x        = []
+    | otherwise  = h x : unfold p h t (t x)
 
+int2bin = unfold (== 0) (`mod` 2) (`div` 2)
+
+chop8a             :: [Bit] -> [[Bit]]
+chop8a []           = []
+chop8a bits         = take 8 bits : chop8a (drop 8 bits)
+
+chop8b = unfold null (take 8) (drop 8)
+
+mapb       :: (a -> b) -> [a] -> [b]
+mapb f      = unfold null (f . head) (tail)
+
+iterate2      :: (a -> a) -> a -> [a]
+iterate2 f     = unfold (const False) id f
 
 
 

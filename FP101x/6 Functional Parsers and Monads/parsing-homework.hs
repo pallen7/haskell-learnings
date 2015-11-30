@@ -96,16 +96,18 @@ int                           =  (do char '-'
                                      n <- nat
                                      return (-n))
                                     +++ nat
--- > 
--- > space                         :: Parser ()
--- > space                         =  do many (sat isSpace)
--- >                                     return ()
--- >
--- > comment                       :: Parser ()
--- > comment                       = error "You must implement comment"
--- >
--- > expr                          :: Parser Int
--- > expr                          = error "You must implement expr"
+
+space                         :: Parser ()
+space                         =  do many (sat isSpace)
+                                    return ()
+
+comment                       :: Parser ()
+comment                       = do string "--"
+                                   many (sat (/= '\n'))
+                                   return ()
+
+expr                          :: Parser Int
+expr                          = error "You must implement expr"
 
 -- Ignoring spacing
 -- ----------------
