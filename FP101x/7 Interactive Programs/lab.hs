@@ -52,3 +52,8 @@ euclid (x, y)
 funkyMap           :: (a -> b) -> (a -> b) -> [a] -> [b]
 funkyMap _ _ []     = []
 funkyMap f g (x:xs) = f x : funkyMap g f xs
+
+h g f = (f . g) $ f
+fix = h fix
+f = \f n -> if (n == 0) then 1 else n * f (n - 1)
+k = fix $ f
