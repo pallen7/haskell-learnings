@@ -10,7 +10,7 @@ class Monad (m :: * -> *) where
     return :: a -> m a
     fail :: String -> m a
 -}
-
+import Data.List
 --
 -- *** VIDEO 1 ***
 -- "then" operator (>>)
@@ -56,10 +56,31 @@ binding3 = do
 -- We can write then in terms of bind if we discard the output from the first function call
 bindAsThen = putStr "Hello " >>= \_ -> putStrLn "World"
 
+-- query to determine how many words of the words in the second string start with the first string. Note this returns an int..:
+query1 :: String -> String -> Int
+query1 str input = length.filter (isPrefixOf str) $ words input
 
+-- Here if we input a string we can see how many words start with that prefix
+runQuery1 :: IO ()
+runQuery1 = do
+        str <- getLine
+        let x = query1 str "cat catfish cattle nocat dog"
+        print x
 
+-- Now using "return" we can return an "IO Int" from the query.
+-- This means that we can build composable blocks instead of placing all of our logic in 1 do construct
+query2 :: String -> IO Int
+query2 str = do
+        input <- getLine 
+        return $ length.filter (isPrefixOf str) $ words input
 
+-- This means we can now use query2 in our do statements and combine with other IO actions
+runQuery2 :: IO ()
+runQuery2 = do
+        result <- getLine >>= query2
+        print result
 
-
+-- so:
+-- a <- return b == let a = b
 
 
